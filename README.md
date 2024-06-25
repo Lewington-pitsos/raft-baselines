@@ -66,3 +66,24 @@ To save out predictions and upload to the HuggingFace Hub (and the leaderboard),
 ## License
 
 This repository is licensed under the MIT License.
+
+## Extra commands
+
+```
+classifier = TransformersCausalLMClassifier(
+    model_type="distilgpt2",             # The model to use from the HF hub
+    training_data=raft_dataset["train"],            # The training data
+    num_prompt_training_examples=25,     # See raft_predict.py for the number of training examples used on a per-dataset basis in the GPT-3 baselines run.
+                                         # Note that it may be better to use fewer training examples and/or shorter instructions with other models with smaller context windows.
+    add_prefixes=(TASK=="banking_77"),   # Set to True when using banking_77 since multiple classes start with the same token
+    config=TASK,                         # For task-specific instructions and field ordering
+    use_task_specific_instructions=True,
+    do_semantic_selection=True,
+)
+
+
+python -m raft_baselines.scripts.raft_predict with n_test=-1 'configs=["ade_corpus_v2", "tweet_eval_hate", "overruling", "banking_77"]' classifier_name=TransformersCausalLMClassifier 'classifier_kwargs={"model_type":"distilgpt2"}'
+python -m raft_baselines.scripts.raft_predict with n_test=-1 'configs=["ade_corpus_v2", "tweet_eval_hate", "overruling", "banking_77"]' classifier_name=TransformersCausalLMClassifier 'classifier_kwargs={"model_type":"gpt2"}'
+python -m raft_baselines.scripts.raft_predict with n_test=-1 'configs=["ade_corpus_v2", "tweet_eval_hate", "overruling", "banking_77"]' classifier_name=TransformersCausalLMClassifier 'classifier_kwargs={"model_type":"gpt2-large"}'
+
+```
