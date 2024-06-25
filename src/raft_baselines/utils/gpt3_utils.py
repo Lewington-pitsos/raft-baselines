@@ -1,5 +1,4 @@
 import openai
-from dotenv import load_dotenv
 import os
 import time
 from cachetools import cached, LRUCache
@@ -7,7 +6,6 @@ from typing import List, Dict, Tuple, Any, cast
 
 from raft_baselines.utils.tokenizers import TransformersTokenizer
 
-load_dotenv()
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 

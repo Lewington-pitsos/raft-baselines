@@ -10,3 +10,5 @@ raft_baselines.egg-info
 
 # Jupyter Notebook
 .ipynb_checkpoints
+
+venv

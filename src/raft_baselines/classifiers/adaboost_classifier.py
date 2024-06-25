@@ -18,7 +18,7 @@ class AdaBoostClassifier(NGramsClassifier):
             model_kwargs = deepcopy(model_kwargs)
             d = model_kwargs.pop("max_depth")
             base = DecisionTreeClassifier(max_depth=d)
-            model_kwargs["base_estimator"] = base
+            model_kwargs["estimator"] = base
         self.classifier = AdaBoost(**model_kwargs)
         self.classifier.fit(self.vectorized_training_data, self.training_data["Label"])
 

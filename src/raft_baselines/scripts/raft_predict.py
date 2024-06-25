@@ -101,7 +101,16 @@ def make_predictions(
     classifier_kwargs,
     random_seed,
 ):
-    classifier = classifier_cls(train_dataset, **classifier_kwargs, **extra_kwargs)
+    
+    new_classifier_kwargs = {}
+    for key, value in classifier_kwargs.items():
+        new_classifier_kwargs[key] = value
+        if key == 'vectorizer_kwargs':
+            new_classifier_kwargs[key] = value.copy()
+            if 'ngram_range' in value:
+                new_classifier_kwargs[key]['ngram_range'] = tuple(value['ngram_range'])
+
+    classifier = classifier_cls(train_dataset, **new_classifier_kwargs, **extra_kwargs)
 
     if n_test > -1:
         test_dataset = test_dataset.select(range(n_test))
@@ -165,6 +174,7 @@ def main(classifier_name):
 
     for config in unlabeled:
         extra_kwargs = make_extra_kwargs(config)
+
         labeled = make_predictions(
             train[config], unlabeled[config], classifier_cls, extra_kwargs
         )

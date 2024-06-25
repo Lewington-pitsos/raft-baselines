@@ -25,3 +25,4 @@ class RandomClassifier(Classifier):
         result[random.choice(self.classes)] = 1.0
 
         return result
+
